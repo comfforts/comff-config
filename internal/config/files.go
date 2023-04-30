@@ -1,0 +1,64 @@
+package config
+
+import (
+	"os"
+	"path/filepath"
+)
+
+const (
+	CAFile                 = "ca.pem"
+	ServerCertFile         = "server.pem"
+	ServerKeyFile          = "server-key.pem"
+	ClientCertFile         = "client.pem"
+	ClientKeyFile          = "client-key.pem"
+	NobodyClientCertFile   = "nobody-client.pem"
+	NobodyClientKeyFile    = "nobody-client-key.pem"
+	GeoClientCertFile      = "geo-client.pem"
+	GeoClientKeyFile       = "geo-client-key.pem"
+	ProfileClientCertFile  = "profile-client.pem"
+	ProfileClientKeyFile   = "profile-client-key.pem"
+	ShopClientCertFile     = "shops-client.pem"
+	ShopClientKeyFile      = "shops-client-key.pem"
+	DeliveryClientCertFile = "delivery-client.pem"
+	DeliveryClientKeyFile  = "delivery-client-key.pem"
+	CourierClientCertFile  = "courier-client.pem"
+	CourierClientKeyFile   = "courier-client-key.pem"
+	BusinessClientCertFile = "biz-client.pem"
+	BusinessClientKeyFile  = "biz-client-key.pem"
+	ACLModelFile           = "model.conf"
+	ACLPolicyFile          = "policy.csv"
+)
+
+type FileType string
+
+const (
+	Policy FileType = "Policy"
+	Certs  FileType = "Certs"
+)
+
+const (
+	POLICY_BASE_DIR = "policies"
+	CERTS_BASE_DIR  = "certs"
+)
+
+func CertFile(fileName string) string {
+	return configFile(fileName, Certs)
+}
+
+func PolicyFile(fileName string) string {
+	return configFile(fileName, Policy)
+}
+
+func configFile(fileName string, fileType FileType) string {
+	if fileType == Policy {
+		if dir := os.Getenv("POLICY_PATH"); dir != "" {
+			return filepath.Join(dir, POLICY_BASE_DIR, fileName)
+		}
+		return filepath.Join(POLICY_BASE_DIR, fileName)
+	}
+
+	if dir := os.Getenv("CERTS_PATH"); dir != "" {
+		return filepath.Join(dir, CERTS_BASE_DIR, fileName)
+	}
+	return filepath.Join(CERTS_BASE_DIR, fileName)
+}

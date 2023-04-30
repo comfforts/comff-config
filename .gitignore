@@ -1,0 +1,8 @@
+DS_STORE
+_DS_STORE
+
+env
+certs
+policies
+vendor
+go.sum
