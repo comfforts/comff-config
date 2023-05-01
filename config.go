@@ -110,6 +110,13 @@ func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 			CAFile:   config.CertFile(config.CAFile),
 			Server:   false,
 		})
+	case BIZ_CLIENT:
+		return config.SetupTLSConfig(config.TLSConfig{
+			CertFile: config.CertFile(config.BusinessClientCertFile),
+			KeyFile:  config.CertFile(config.BusinessClientKeyFile),
+			CAFile:   config.CertFile(config.CAFile),
+			Server:   false,
+		})
 	case NOBODY_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.NobodyClientCertFile),
