@@ -32,6 +32,7 @@ const (
 	DELIVERY_CLIENT ConfigurationTarget = "DELIVERY_CLIENT"
 	BIZ_CLIENT      ConfigurationTarget = "BIZ_CLIENT"
 	CUSTOM          ConfigurationTarget = "CUSTOM"
+	NOBODY_CLIENT   ConfigurationTarget = "NOBODY_CLIENT"
 )
 
 type CustomOpts struct {
@@ -99,6 +100,13 @@ func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.DeliveryClientCertFile),
 			KeyFile:  config.CertFile(config.DeliveryClientKeyFile),
+			CAFile:   config.CertFile(config.CAFile),
+			Server:   false,
+		})
+	case NOBODY_CLIENT:
+		return config.SetupTLSConfig(config.TLSConfig{
+			CertFile: config.CertFile(config.NobodyClientCertFile),
+			KeyFile:  config.CertFile(config.NobodyClientKeyFile),
 			CAFile:   config.CertFile(config.CAFile),
 			Server:   false,
 		})
