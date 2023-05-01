@@ -3,8 +3,11 @@ package config
 import (
 	"crypto/tls"
 
-	"github.com/comfforts/comff-config/internal/config"
 	"github.com/comfforts/errors"
+	"github.com/comfforts/logger"
+
+	"github.com/comfforts/comff-config/internal/auth"
+	"github.com/comfforts/comff-config/internal/config"
 )
 
 const (
@@ -41,6 +44,10 @@ type ConfigOpts struct {
 	Addr   string
 	Target ConfigurationTarget
 	Opts   *CustomOpts
+}
+
+func SetupAuthorizer(logger logger.AppLogger) (*auth.Authorizer, error) {
+	return auth.NewAuthorizer(config.PolicyFile(config.ACLModelFile), config.PolicyFile(config.ACLPolicyFile), logger)
 }
 
 func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
