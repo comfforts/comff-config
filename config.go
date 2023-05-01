@@ -47,6 +47,10 @@ type ConfigOpts struct {
 	Opts   *CustomOpts
 }
 
+type Authorizer interface {
+	Authorize(subject, object, action string) error
+}
+
 func SetupAuthorizer(logger logger.AppLogger) (*auth.Authorizer, error) {
 	return auth.NewAuthorizer(config.PolicyFile(config.ACLModelFile), config.PolicyFile(config.ACLPolicyFile), logger)
 }
