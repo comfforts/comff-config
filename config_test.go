@@ -45,7 +45,6 @@ func testClientConfig(t *testing.T) {
 	t.Helper()
 
 	opts := config.ConfigOpts{
-		Addr:   ADDR,
 		Target: config.CLIENT,
 	}
 

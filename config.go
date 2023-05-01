@@ -54,6 +54,9 @@ func SetupAuthorizer(logger logger.AppLogger) (*auth.Authorizer, error) {
 func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 	switch opts.Target {
 	case SERVER:
+		if opts.Addr == "" {
+			return nil, ErrMissingRequired
+		}
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile:      config.CertFile(config.ServerCertFile),
 			KeyFile:       config.CertFile(config.ServerKeyFile),
@@ -114,11 +117,20 @@ func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 		if opts.Opts == nil || opts.Opts.CertFilePath == "" || opts.Opts.KeyFilePath == "" {
 			return nil, ErrMissingRequired
 		}
+
+		addr := ""
+		if opts.Opts.IsServer {
+			if opts.Addr == "" {
+				return nil, ErrMissingRequired
+			}
+			addr = opts.Addr
+		}
 		return config.SetupTLSConfig(config.TLSConfig{
-			CertFile: opts.Opts.CertFilePath,
-			KeyFile:  opts.Opts.KeyFilePath,
-			CAFile:   config.CertFile(config.CAFile),
-			Server:   opts.Opts.IsServer,
+			CertFile:      opts.Opts.CertFilePath,
+			KeyFile:       opts.Opts.KeyFilePath,
+			CAFile:        config.CertFile(config.CAFile),
+			Server:        opts.Opts.IsServer,
+			ServerAddress: addr,
 		})
 	default:
 		return nil, ErrUndefinedTarget
