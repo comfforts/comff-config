@@ -23,6 +23,8 @@ const (
 	DeliveryClientKeyFile  = "delivery-client-key.pem"
 	CourierClientCertFile  = "courier-client.pem"
 	CourierClientKeyFile   = "courier-client-key.pem"
+	OffersClientCertFile   = "offers-client.pem"
+	OffersClientKeyFile    = "offers-client-key.pem"
 	BusinessClientCertFile = "biz-client.pem"
 	BusinessClientKeyFile  = "biz-client-key.pem"
 	ACLModelFile           = "model.conf"
