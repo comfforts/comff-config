@@ -23,17 +23,18 @@ var (
 type ConfigurationTarget string
 
 const (
-	SERVER          ConfigurationTarget = "SERVER"
-	CLIENT          ConfigurationTarget = "CLIENT"
-	GEO_CLIENT      ConfigurationTarget = "GEO_CLIENT"
-	PROFILE_CLIENT  ConfigurationTarget = "PROFILE_CLIENT"
-	SHOP_CLIENT     ConfigurationTarget = "SHOP_CLIENT"
-	COURIER_CLIENT  ConfigurationTarget = "COURIER_CLIENT"
-	DELIVERY_CLIENT ConfigurationTarget = "DELIVERY_CLIENT"
-	BIZ_CLIENT      ConfigurationTarget = "BIZ_CLIENT"
-	OFFERS_CLIENT   ConfigurationTarget = "OFFERS_CLIENT"
-	CUSTOM          ConfigurationTarget = "CUSTOM"
-	NOBODY_CLIENT   ConfigurationTarget = "NOBODY_CLIENT"
+	SERVER               ConfigurationTarget = "SERVER"
+	CLIENT               ConfigurationTarget = "CLIENT"
+	GEO_CLIENT           ConfigurationTarget = "GEO_CLIENT"
+	PROFILE_CLIENT       ConfigurationTarget = "PROFILE_CLIENT"
+	SHOP_CLIENT          ConfigurationTarget = "SHOP_CLIENT"
+	COURIER_CLIENT       ConfigurationTarget = "COURIER_CLIENT"
+	DELIVERY_CLIENT      ConfigurationTarget = "DELIVERY_CLIENT"
+	BIZ_CLIENT           ConfigurationTarget = "BIZ_CLIENT"
+	OFFERS_CLIENT        ConfigurationTarget = "OFFERS_CLIENT"
+	NOTIFICATIONS_CLIENT ConfigurationTarget = "NOTIFICATIONS_CLIENT"
+	CUSTOM               ConfigurationTarget = "CUSTOM"
+	NOBODY_CLIENT        ConfigurationTarget = "NOBODY_CLIENT"
 )
 
 type CustomOpts struct {
@@ -115,6 +116,13 @@ func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.OffersClientCertFile),
 			KeyFile:  config.CertFile(config.OffersClientKeyFile),
+			CAFile:   config.CertFile(config.CAFile),
+			Server:   false,
+		})
+	case NOTIFICATIONS_CLIENT:
+		return config.SetupTLSConfig(config.TLSConfig{
+			CertFile: config.CertFile(config.NotificationsClientCertFile),
+			KeyFile:  config.CertFile(config.NotificationsClientKeyFile),
 			CAFile:   config.CertFile(config.CAFile),
 			Server:   false,
 		})
