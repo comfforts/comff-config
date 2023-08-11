@@ -2,6 +2,17 @@ package config
 
 import "fmt"
 
+const (
+	ProfilesCQRSResolverName      = "profilescqrs"
+	GeoCQRSResolverName           = "geocqrs"
+	ShopsCQRSResolverName         = "shopscqrs"
+	CourierCQRSResolverName       = "couriercqrs"
+	DeliveryCQRSResolverName      = "deliverycqrs"
+	OffersCQRSResolverName        = "offerscqrs"
+	BizCQRSResolverName           = "bizcqrs"
+	NotificationsCQRSResolverName = "notificationscqrs"
+)
+
 type RequestResolver string
 
 func (rr RequestResolver) String() string {
@@ -10,12 +21,12 @@ func (rr RequestResolver) String() string {
 }
 
 const (
-	ProfilesCQRSResolverKey      = RequestResolver("profilescqrs")
-	GeoCQRSResolverKey           = RequestResolver("geocqrs")
-	ShopsCQRSResolverKey         = RequestResolver("shopscqrs")
-	CourierCQRSResolverKey       = RequestResolver("couriercqrs")
-	DeliveryCQRSResolverKey      = RequestResolver("deliverycqrs")
-	OffersCQRSResolverKey        = RequestResolver("offerscqrs")
-	BizCQRSResolverKey           = RequestResolver("bizcqrs")
-	NotificationsCQRSResolverKey = RequestResolver("notificationscqrs")
+	ProfilesCQRSResolverKey      = RequestResolver(ProfilesCQRSResolverName)
+	GeoCQRSResolverKey           = RequestResolver(GeoCQRSResolverName)
+	ShopsCQRSResolverKey         = RequestResolver(ShopsCQRSResolverName)
+	CourierCQRSResolverKey       = RequestResolver(CourierCQRSResolverName)
+	DeliveryCQRSResolverKey      = RequestResolver(DeliveryCQRSResolverName)
+	OffersCQRSResolverKey        = RequestResolver(OffersCQRSResolverName)
+	BizCQRSResolverKey           = RequestResolver(BizCQRSResolverName)
+	NotificationsCQRSResolverKey = RequestResolver(NotificationsCQRSResolverName)
 )
