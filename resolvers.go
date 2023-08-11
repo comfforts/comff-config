@@ -5,7 +5,7 @@ import "fmt"
 type RequestResolver string
 
 func (rr RequestResolver) String() string {
-	fmt.Println("resolver: ", string(rr))
+	fmt.Println("resolver string: ", string(rr))
 	return string(rr)
 }
 
