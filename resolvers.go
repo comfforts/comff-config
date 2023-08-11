@@ -1,18 +1,21 @@
 package config
 
+import "fmt"
+
 type RequestResolver string
 
 func (rr RequestResolver) String() string {
+	fmt.Println("resolver: ", string(rr))
 	return string(rr)
 }
 
 const (
-	ProfilesCQRSResolverKey      = RequestResolver("profiles-cqrs")
-	GeoCQRSResolverKey           = RequestResolver("geo-cqrs")
-	ShopsCQRSResolverKey         = RequestResolver("shops-cqrs")
-	CourierCQRSResolverKey       = RequestResolver("courier-cqrs")
-	DeliveryCQRSResolverKey      = RequestResolver("delivery-cqrs")
-	OffersCQRSResolverKey        = RequestResolver("offers-cqrs")
-	BizCQRSResolverKey           = RequestResolver("biz-cqrs")
-	NotificationsCQRSResolverKey = RequestResolver("notifications-cqrs")
+	ProfilesCQRSResolverKey      = RequestResolver("profilescqrs")
+	GeoCQRSResolverKey           = RequestResolver("geocqrs")
+	ShopsCQRSResolverKey         = RequestResolver("shopscqrs")
+	CourierCQRSResolverKey       = RequestResolver("couriercqrs")
+	DeliveryCQRSResolverKey      = RequestResolver("deliverycqrs")
+	OffersCQRSResolverKey        = RequestResolver("offerscqrs")
+	BizCQRSResolverKey           = RequestResolver("bizcqrs")
+	NotificationsCQRSResolverKey = RequestResolver("notificationscqrs")
 )
