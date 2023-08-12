@@ -3,14 +3,14 @@ package config
 import "fmt"
 
 const (
-	ProfilesCQRSResolverName      = "profilescqrs"
-	GeoCQRSResolverName           = "geocqrs"
-	ShopsCQRSResolverName         = "shopscqrs"
-	CourierCQRSResolverName       = "couriercqrs"
-	DeliveryCQRSResolverName      = "deliverycqrs"
-	OffersCQRSResolverName        = "offerscqrs"
-	BizCQRSResolverName           = "bizcqrs"
-	NotificationsCQRSResolverName = "notificationscqrs"
+	ProfilesCQRSResolverName      = "profiles"
+	GeoCQRSResolverName           = "geo"
+	ShopsCQRSResolverName         = "shops"
+	CourierCQRSResolverName       = "courier"
+	DeliveryCQRSResolverName      = "delivery"
+	OffersCQRSResolverName        = "offers"
+	BizCQRSResolverName           = "biz"
+	NotificationsCQRSResolverName = "notifications"
 )
 
 type RequestResolver string
