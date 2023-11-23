@@ -29,6 +29,8 @@ const (
 	NotificationsClientKeyFile  = "notifications-client-key.pem"
 	BusinessClientCertFile      = "biz-client.pem"
 	BusinessClientKeyFile       = "biz-client-key.pem"
+	SchedulerClientCertFile     = "scheduler-client.pem"
+	SchedulerClientKeyFile      = "scheduler-client-key.pem"
 	ACLModelFile                = "model.conf"
 	ACLPolicyFile               = "policy.csv"
 )

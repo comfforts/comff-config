@@ -31,6 +31,7 @@ const (
 	COURIER_CLIENT       ConfigurationTarget = "COURIER_CLIENT"
 	DELIVERY_CLIENT      ConfigurationTarget = "DELIVERY_CLIENT"
 	BIZ_CLIENT           ConfigurationTarget = "BIZ_CLIENT"
+	SCHEDULER_CLIENT     ConfigurationTarget = "SCHEDULER_CLIENT"
 	OFFERS_CLIENT        ConfigurationTarget = "OFFERS_CLIENT"
 	NOTIFICATIONS_CLIENT ConfigurationTarget = "NOTIFICATIONS_CLIENT"
 	CUSTOM               ConfigurationTarget = "CUSTOM"
@@ -130,6 +131,13 @@ func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.BusinessClientCertFile),
 			KeyFile:  config.CertFile(config.BusinessClientKeyFile),
+			CAFile:   config.CertFile(config.CAFile),
+			Server:   false,
+		})
+	case SCHEDULER_CLIENT:
+		return config.SetupTLSConfig(config.TLSConfig{
+			CertFile: config.CertFile(config.SchedulerClientCertFile),
+			KeyFile:  config.CertFile(config.SchedulerClientKeyFile),
 			CAFile:   config.CertFile(config.CAFile),
 			Server:   false,
 		})
