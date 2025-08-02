@@ -1,6 +1,6 @@
 module github.com/comfforts/comff-config
 
-go 1.23.6
+go 1.22.12
 
 require (
 	github.com/casbin/casbin v1.9.1
