@@ -2,9 +2,7 @@ package config
 
 import (
 	"crypto/tls"
-
-	"github.com/comfforts/errors"
-	"github.com/comfforts/logger"
+	"errors"
 
 	"github.com/comfforts/comff-config/internal/auth"
 	"github.com/comfforts/comff-config/internal/config"
@@ -16,8 +14,8 @@ const (
 )
 
 var (
-	ErrMissingRequired = errors.NewAppError(ERR_MISSING_REQUIRED)
-	ErrUndefinedTarget = errors.NewAppError(ERR_UNDEFINED_TARGET)
+	ErrMissingRequired = errors.New(ERR_MISSING_REQUIRED)
+	ErrUndefinedTarget = errors.New(ERR_UNDEFINED_TARGET)
 )
 
 type ConfigurationTarget string
@@ -54,8 +52,8 @@ type Authorizer interface {
 	Authorize(subject, object, action string) error
 }
 
-func SetupAuthorizer(logger logger.AppLogger) (*auth.Authorizer, error) {
-	return auth.NewAuthorizer(config.PolicyFile(config.ACLModelFile), config.PolicyFile(config.ACLPolicyFile), logger)
+func SetupAuthorizer() (*auth.Authorizer, error) {
+	return auth.NewAuthorizer(config.PolicyFile(config.ACLModelFile), config.PolicyFile(config.ACLPolicyFile))
 }
 
 func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {

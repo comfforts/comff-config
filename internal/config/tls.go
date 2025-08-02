@@ -3,9 +3,22 @@ package config
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"errors"
 	"os"
+)
 
-	"github.com/comfforts/errors"
+const (
+	ERR_MISSING_CERT_FILE = "missing cert file"
+	ERR_CERT_INACCESSIBLE = "cert file inaccessible"
+	ERR_TLS_CFG_CREATION  = "error creating TLS config"
+	ERR_PARSE_CERT        = "error parsing certificate file"
+)
+
+var (
+	ErrMissingCertFile  = errors.New(ERR_MISSING_CERT_FILE)
+	ErrCertInaccessible = errors.New(ERR_CERT_INACCESSIBLE)
+	ErrTLSCfgCreation   = errors.New(ERR_TLS_CFG_CREATION)
+	ErrParseCert        = errors.New(ERR_PARSE_CERT)
 )
 
 type TLSConfig struct {
@@ -23,36 +36,36 @@ func SetupTLSConfig(cfg TLSConfig) (*tls.Config, error) {
 		_, err := os.Stat(cfg.CertFile)
 		if err != nil {
 			if os.IsNotExist(err) {
-				return nil, errors.NewAppError("file doesn't exist - %s", cfg.CertFile)
+				return nil, ErrMissingCertFile
 			} else {
-				return nil, errors.WrapError(err, "file insccessible", cfg.CertFile)
+				return nil, ErrCertInaccessible
 			}
 		}
 
 		_, err = os.Stat(cfg.KeyFile)
 		if err != nil {
 			if os.IsNotExist(err) {
-				return nil, errors.NewAppError("file doesn't exist - %s", cfg.KeyFile)
+				return nil, ErrMissingCertFile
 			} else {
-				return nil, errors.WrapError(err, "file insccessible", cfg.KeyFile)
+				return nil, ErrCertInaccessible
 			}
 		}
 
 		tlsConfig.Certificates = make([]tls.Certificate, 1)
 		tlsConfig.Certificates[0], err = tls.LoadX509KeyPair(cfg.CertFile, cfg.KeyFile)
 		if err != nil {
-			return nil, errors.WrapError(err, "error creating TLS config")
+			return nil, ErrTLSCfgCreation
 		}
 	}
 	if cfg.CAFile != "" {
 		b, err := os.ReadFile(cfg.CAFile)
 		if err != nil {
-			return nil, errors.WrapError(err, "file doesn't exist - %s", cfg.CAFile)
+			return nil, ErrMissingCertFile
 		}
 		ca := x509.NewCertPool()
 		ok := ca.AppendCertsFromPEM([]byte(b))
 		if !ok {
-			return nil, errors.NewAppError("error parsing certificate file %s", cfg.CAFile)
+			return nil, ErrParseCert
 		}
 		if cfg.Server {
 			tlsConfig.ClientCAs = ca
