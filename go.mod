@@ -1,10 +1,10 @@
 module github.com/comfforts/comff-config
 
-go 1.22.12
+go 1.24.7
 
 require (
 	github.com/casbin/casbin v1.9.1
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 )
 
 require (
