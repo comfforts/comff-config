@@ -40,6 +40,7 @@ const (
 type CustomOpts struct {
 	CertFilePath string
 	KeyFilePath  string
+	CAFilePath   string
 	IsServer     bool
 }
 
@@ -58,105 +59,171 @@ func SetupAuthorizer() (*auth.Authorizer, error) {
 }
 
 func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
+	var caFilePath string
+	var certFilePath string
+	var keyFilePath string
+
+	if opts.Opts != nil {
+		if opts.Opts.CAFilePath != "" {
+			caFilePath = opts.Opts.CAFilePath
+		}
+		if opts.Opts.CertFilePath != "" {
+			certFilePath = opts.Opts.CertFilePath
+		}
+		if opts.Opts.KeyFilePath != "" {
+			keyFilePath = opts.Opts.KeyFilePath
+		}
+	}
+
+	if caFilePath == "" {
+		caFilePath = config.CertFile(config.CAFile)
+	}
+
 	switch opts.Target {
 	case SERVER:
 		if opts.Addr == "" {
 			return nil, ErrMissingRequired
 		}
+
+		if certFilePath == "" {
+			certFilePath = config.CertFile(config.ServerCertFile)
+		}
+
+		if keyFilePath == "" {
+			keyFilePath = config.CertFile(config.ServerKeyFile)
+		}
+
 		return config.SetupTLSConfig(config.TLSConfig{
-			CertFile:      config.CertFile(config.ServerCertFile),
-			KeyFile:       config.CertFile(config.ServerKeyFile),
-			CAFile:        config.CertFile(config.CAFile),
+			CertFile:      certFilePath,
+			KeyFile:       keyFilePath,
+			CAFile:        caFilePath,
 			ServerAddress: opts.Addr,
 			Server:        true,
 		})
 	case CLIENT:
+		if certFilePath == "" {
+			certFilePath = config.CertFile(config.ClientCertFile)
+		}
+
+		if keyFilePath == "" {
+			keyFilePath = config.CertFile(config.ClientKeyFile)
+		}
+
 		return config.SetupTLSConfig(config.TLSConfig{
-			CertFile: config.CertFile(config.ClientCertFile),
-			KeyFile:  config.CertFile(config.ClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CertFile: certFilePath,
+			KeyFile:  keyFilePath,
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case GEO_CLIENT:
+		if certFilePath == "" {
+			certFilePath = config.CertFile(config.GeoClientCertFile)
+		}
+
+		if keyFilePath == "" {
+			keyFilePath = config.CertFile(config.GeoClientKeyFile)
+		}
+
 		return config.SetupTLSConfig(config.TLSConfig{
-			CertFile: config.CertFile(config.GeoClientCertFile),
-			KeyFile:  config.CertFile(config.GeoClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CertFile: certFilePath,
+			KeyFile:  keyFilePath,
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case PROFILE_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.ProfileClientCertFile),
 			KeyFile:  config.CertFile(config.ProfileClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case SHOP_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.ShopClientCertFile),
 			KeyFile:  config.CertFile(config.ShopClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case STORES_CLIENT:
+		if certFilePath == "" {
+			certFilePath = config.CertFile(config.StoresClientCertFile)
+		}
+
+		if keyFilePath == "" {
+			keyFilePath = config.CertFile(config.StoresClientKeyFile)
+		}
+
 		return config.SetupTLSConfig(config.TLSConfig{
-			CertFile: config.CertFile(config.StoresClientCertFile),
-			KeyFile:  config.CertFile(config.StoresClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CertFile: certFilePath,
+			KeyFile:  keyFilePath,
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case COURIER_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.CourierClientCertFile),
 			KeyFile:  config.CertFile(config.CourierClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case DELIVERY_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.DeliveryClientCertFile),
 			KeyFile:  config.CertFile(config.DeliveryClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case OFFERS_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.OffersClientCertFile),
 			KeyFile:  config.CertFile(config.OffersClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case NOTIFICATIONS_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.NotificationsClientCertFile),
 			KeyFile:  config.CertFile(config.NotificationsClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case BIZ_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.BusinessClientCertFile),
 			KeyFile:  config.CertFile(config.BusinessClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case SCHEDULER_CLIENT:
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.SchedulerClientCertFile),
 			KeyFile:  config.CertFile(config.SchedulerClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case NOBODY_CLIENT:
+		if certFilePath == "" {
+			certFilePath = config.CertFile(config.NobodyClientCertFile)
+		}
+
+		if keyFilePath == "" {
+			keyFilePath = config.CertFile(config.NobodyClientKeyFile)
+		}
+
 		return config.SetupTLSConfig(config.TLSConfig{
-			CertFile: config.CertFile(config.NobodyClientCertFile),
-			KeyFile:  config.CertFile(config.NobodyClientKeyFile),
-			CAFile:   config.CertFile(config.CAFile),
+			CertFile: certFilePath,
+			KeyFile:  keyFilePath,
+			CAFile:   caFilePath,
 			Server:   false,
 		})
 	case CUSTOM:
 		if opts.Opts == nil || opts.Opts.CertFilePath == "" || opts.Opts.KeyFilePath == "" {
 			return nil, ErrMissingRequired
+		}
+
+		caFilePath := opts.Opts.CAFilePath
+		if caFilePath == "" {
+			caFilePath = config.CertFile(config.CAFile)
 		}
 
 		addr := ""
@@ -169,7 +236,7 @@ func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile:      opts.Opts.CertFilePath,
 			KeyFile:       opts.Opts.KeyFilePath,
-			CAFile:        config.CertFile(config.CAFile),
+			CAFile:        caFilePath,
 			Server:        opts.Opts.IsServer,
 			ServerAddress: addr,
 		})
