@@ -26,6 +26,7 @@ const (
 	GEO_CLIENT           ConfigurationTarget = "GEO_CLIENT"
 	PROFILE_CLIENT       ConfigurationTarget = "PROFILE_CLIENT"
 	SHOP_CLIENT          ConfigurationTarget = "SHOP_CLIENT"
+	STORES_CLIENT        ConfigurationTarget = "STORES_CLIENT"
 	COURIER_CLIENT       ConfigurationTarget = "COURIER_CLIENT"
 	DELIVERY_CLIENT      ConfigurationTarget = "DELIVERY_CLIENT"
 	BIZ_CLIENT           ConfigurationTarget = "BIZ_CLIENT"
@@ -94,6 +95,13 @@ func SetupTLSConfig(opts *ConfigOpts) (*tls.Config, error) {
 		return config.SetupTLSConfig(config.TLSConfig{
 			CertFile: config.CertFile(config.ShopClientCertFile),
 			KeyFile:  config.CertFile(config.ShopClientKeyFile),
+			CAFile:   config.CertFile(config.CAFile),
+			Server:   false,
+		})
+	case STORES_CLIENT:
+		return config.SetupTLSConfig(config.TLSConfig{
+			CertFile: config.CertFile(config.StoresClientCertFile),
+			KeyFile:  config.CertFile(config.StoresClientKeyFile),
 			CAFile:   config.CertFile(config.CAFile),
 			Server:   false,
 		})

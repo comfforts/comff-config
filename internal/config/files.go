@@ -19,6 +19,8 @@ const (
 	ProfileClientKeyFile        = "profile-client-key.pem"
 	ShopClientCertFile          = "shops-client.pem"
 	ShopClientKeyFile           = "shops-client-key.pem"
+	StoresClientCertFile        = "stores-client.pem"
+	StoresClientKeyFile         = "stores-client-key.pem"
 	DeliveryClientCertFile      = "delivery-client.pem"
 	DeliveryClientKeyFile       = "delivery-client-key.pem"
 	CourierClientCertFile       = "courier-client.pem"
